@@ -1,25 +1,27 @@
 
 namespace Monad;
 
-public class Option<T> where T: struct
+public class Option<T> // where T: struct
 {
-  private Nullable<T> Value;
+  private object? Value;
 
   /// <summary>
   /// Shows wether or not there is a value present
   /// </summary>
-  public bool IsSome => Value.HasValue;
+  public bool IsSome => Value != null;
 
   /// <summary>
   /// Shows wether or not the value is missing
   /// </summary>
-  public bool IsNone => !Value.HasValue;
+  public bool IsNone => Value == null;
 
   /// <summary>
-  /// Constructs a new Option instance
+  /// Creates a Option instance with a value of type <paramref name="T"/>
   /// </summary>
-  /// <param name="val"> The value that will be containd in the option </param>
-  public Option(Nullable<T> val) => Value = val;
+  /// <param name="val"> The value to be put into the Option instance </param>
+  public Option(object? val) {
+    Value = val;
+  }
 
   /// <summary>
   /// Returns the unrelying value, will throw an error if the value is not pressent
@@ -27,8 +29,8 @@ public class Option<T> where T: struct
   /// <returns> Returns the contained value if it is pressent </returns>
   /// <exception cref="ArgumentNullException"> The error is thrown if the user tries to unwrap and empty option </exception>
   public T Unwrap() {
-    if (!Value.HasValue) throw new ArgumentNullException("Cannot unwrap an empty value");
-    return Value.Value;
+    if (Value == null) throw new ArgumentNullException("Cannot unwrap an empty value");
+    return (T) Value;
   }
 
   /// <summary>
@@ -36,15 +38,20 @@ public class Option<T> where T: struct
   /// </summary>
   /// <param name="backup"> The value that will be returned if the Option is empty </param>
   /// <returns>
-  /// An instance of T that is either the internal value of the Option, or the given value in <paramref name="backup"/>
+  /// An instance of <paramref name="T"/> that is either the internal value of the Option, or the given value in <paramref name="backup"/>
   /// </returns>
   public T UnwrapOr(T backup) {
-    if (!Value.HasValue) return backup;
-    return Value.Value;
+    if (Value == null) return backup;
+    return (T) Value;
   }
 
-  public T UnwrapOrDefault() {
-    if (!Value.HasValue) return default(T);
-    return Value.Value;
+  /// <summary>
+  /// Returns the value in the Option instance, or the default value for the type <br/>
+  /// <b>WARNING:</b> this can be a null value.
+  /// </summary>
+  /// <returns> The value in the Option, or the default for <paramref name="T"/> </returns>
+  public T? UnwrapOrDefault() {
+    if (Value == null) return default(T);
+    return (T) Value;
   }
 }
