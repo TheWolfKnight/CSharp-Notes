@@ -1,10 +1,38 @@
 ﻿using System.Diagnostics;
 
+
 namespace Monad;
 
 public class Program {
   static void Main(string[] args) {
     OptionTests();
+    ResultTests();
+  }
+
+  static void ResultTests()
+  {
+
+    Test a = new Test(1);
+
+    Result<int, string> result = a.GetA();
+
+    int val = result.IsOk switch
+    {
+      true => result.GetValue(),
+      false => throw new Exception(result.GetError()),
+    };
+
+    System.Console.WriteLine(val);
+
+    Test b = new Test(null);
+    Result<int, string> l = b.GetA();
+
+    int p = l.IsOk switch
+    {
+      true => l.GetValue(),
+      false => throw new Exception(l.GetError()),
+    };
+
   }
 
   static void OptionTests() {
@@ -36,5 +64,16 @@ public class Program {
     };
 
     Debug.Assert(test == i);
+  }
+}
+
+public class Test {
+  public int? A;
+
+  public Test(int? a) => A = a;
+
+  public Result<int, string> GetA() {
+    if (A == null) return Result<int, string>.Error("Could not get A");
+    return Result<int, string>.Ok((int)A);
   }
 }
