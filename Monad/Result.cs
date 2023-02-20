@@ -57,6 +57,53 @@ public class Result<TValue, TError> {
     if (_Inner == null || IsOk) throw new ResultErrorNullException("Cannot get Error, when the Value was returned");
     return (TError)_Inner;
   }
+
+  /// <summary>
+  /// Handles the posibility where the Result is ok
+  /// </summary>
+  /// <param name="func"> Defines the actions to be taken on the ok result </param>
+  /// <returns> An instance of self, used for chaining </returns>
+  public Result<TValue, TError> Ok(Action<TValue> func) {
+    if (IsError || _Inner == null) return this;
+    func((TValue)_Inner);
+    return this;
+  }
+
+  /// <summary>
+  /// Handles the posibility where the Result is ok
+  /// </summary>
+  /// <param name="func"> Defines the actions to be taken on the ok result </param>
+  /// <param name="args"> Defines the other arguments for the <paramref name="func"/> argument </param>
+  /// <returns> An instance of self, used for chaining </returns>
+  public Result<TValue, TError> Ok(Action<TValue, object[]> func, params object[] args) {
+    if (IsError || _Inner == null) return this;
+    func((TValue)_Inner, args);
+    return this;
+  }
+
+  /// <summary>
+  /// Handles the posibility where the Result is err
+  /// </summary>
+  /// <param name="func"> Defines the actions to be taken on the ok result </param>
+  /// <returns> An instance of self, used for chaining </returns>
+  public Result<TValue, TError> Err(Action<TError> func) {
+    if (IsOk || _Inner == null) return this;
+    func((TError)_Inner);
+    return this;
+  }
+
+  /// <summary>
+  /// Handles the posibility where the Result is err
+  /// </summary>
+  /// <param name="func"> Defines the actions to be taken on the ok result </param>
+  /// <param name="args"> Defines the other arguments for the <paramref name="func"/> argument </param>
+  /// <returns> An instance of self, used for chaining </returns>
+  public Result<TValue, TError> Err(Action<TError, object[]> func, params object[] args) {
+    if (IsOk || _Inner == null) return this;
+    func((TError)_Inner, args);
+    return this;
+  }
+
 }
 
 public class ResultValueNullException: Exception {

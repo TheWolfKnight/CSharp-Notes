@@ -47,12 +47,11 @@ public class Program {
     System.Console.WriteLine(o.IsSome);
     System.Console.WriteLine(o.IsNone);
 
-    try {
-      string m = l.Unwrap();
-    }
-    catch (ArgumentNullException) {
-      System.Console.WriteLine("m could not be unwraped");
-    }
+    o.Some(item => System.Console.WriteLine(item))
+     .None(() => System.Console.WriteLine("None"));
+
+    n.Some(item => System.Console.WriteLine(item))
+     .None(() => System.Console.WriteLine("None"));
 
     System.Console.WriteLine(n.UnwrapOr(-1));
     System.Console.WriteLine(o.Unwrap());
