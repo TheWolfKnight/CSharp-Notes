@@ -5,7 +5,6 @@ namespace Monad;
 public class Program {
   static void Main(string[] args) {
     OptionTests();
-
   }
 
   static void OptionTests() {
@@ -14,14 +13,14 @@ public class Program {
     Option<int> o = new Option<int>(i);
     Option<int> n = new Option<int>(null);
 
-    Option<Test> t = new Option<Test>(new Test(1));
-    Option<Test> l = new Option<Test>(null);
+    Option<string> t = new Option<string>("Hello, World!");
+    Option<string> l = new Option<string>(null);
 
     System.Console.WriteLine(o.IsSome);
     System.Console.WriteLine(o.IsNone);
 
     try {
-      Test m = l.Unwrap();
+      string m = l.Unwrap();
     }
     catch (ArgumentNullException) {
       System.Console.WriteLine("m could not be unwraped");
