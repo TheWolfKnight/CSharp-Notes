@@ -4,6 +4,11 @@ namespace Monad;
 
 public class Program {
   static void Main(string[] args) {
+    OptionTests();
+
+  }
+
+  static void OptionTests() {
     int i = 10;
 
     Option<int> o = new Option<int>(i);
