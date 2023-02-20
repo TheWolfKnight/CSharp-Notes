@@ -1,4 +1,5 @@
-﻿
+﻿using System.Diagnostics;
+
 namespace Monad;
 
 public class Program {
@@ -24,5 +25,12 @@ public class Program {
     System.Console.WriteLine(n.UnwrapOr(-1));
     System.Console.WriteLine(o.Unwrap());
 
+    int test = o.IsSome switch
+    {
+      true => o.Unwrap(),
+      false => -1,
+    };
+
+    Debug.Assert(test == i);
   }
 }

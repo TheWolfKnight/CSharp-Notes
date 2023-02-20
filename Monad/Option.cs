@@ -1,7 +1,7 @@
 
 namespace Monad;
 
-public class Option<T> // where T: struct
+public class Option<T>
 {
   private object? Value;
 
@@ -53,5 +53,26 @@ public class Option<T> // where T: struct
   public T? UnwrapOrDefault() {
     if (Value == null) return default(T);
     return (T) Value;
+  }
+
+  /// <summary>
+  /// Returns the value containd in the option, or throws an exception with at given message.
+  /// </summary>
+  /// <param name="message"> The message to be throw if the Option is empty </param>
+  /// <returns> The value contained in the Options instance </returns>
+  /// <exception cref="Exception"> The base exception class, thrown with the given message </exception>
+  public T UnwrapOrPanic(string message) {
+    if (Value == null) throw new Exception(message);
+    return (T)Value;
+  }
+
+  /// <summary>
+  /// Returns the value containd in the option, or throws an exception with at given message.
+  /// </summary>
+  /// <param name="exception"> The exception to be thrown if the Option is null </param>
+  /// <returns> The value contained in the Options instance </returns>
+  public T UnwrapOrPanic(Exception exception) {
+    if (Value == null) throw exception;
+    return (T)Value;
   }
 }
