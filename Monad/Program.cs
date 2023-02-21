@@ -27,11 +27,7 @@ public class Program {
     Test b = new Test(null);
     Result<int, string> l = b.GetA();
 
-    int p = l.IsOk switch
-    {
-      true => l.GetValue(),
-      false => throw new Exception(l.GetError()),
-    };
+    int i = l.UnwrapOrElse(err => throw new Exception(err));
 
   }
 

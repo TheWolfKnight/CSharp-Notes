@@ -104,6 +104,19 @@ public class Result<TValue, TError> {
     return this;
   }
 
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="func"></param>
+  /// <returns></returns>
+  /// <exception cref="Exception"></exception>
+  public TValue UnwrapOrElse(Func<TError, TValue> func) {
+    if (_Inner == null) throw new Exception("Unrechable Code");
+    if (IsOk) return (TValue)_Inner;
+
+    TValue result =  func((TError)_Inner);
+    return result;
+  }
 }
 
 public class ResultValueNullException: Exception {
