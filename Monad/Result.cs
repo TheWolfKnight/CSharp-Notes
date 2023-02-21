@@ -105,11 +105,12 @@ public class Result<TValue, TError> {
   }
 
   /// <summary>
-  /// 
+  /// Returns the value in the Result, or runs a function that takes <paramref name="TError"/> as a input,
+  /// and returns a <paramref name="TValue"/> as a result.
   /// </summary>
-  /// <param name="func"></param>
-  /// <returns></returns>
-  /// <exception cref="Exception"></exception>
+  /// <param name="func"> The function that is called, when the stored value is a error </param>
+  /// <returns> Returns the Ok result type, as if the result was ok </returns>
+  /// <exception cref="Exception"> <paramref name="_Inner"/> cannot be null, so this will never happen </exception>
   public TValue UnwrapOrElse(Func<TError, TValue> func) {
     if (_Inner == null) throw new Exception("Unrechable Code");
     if (IsOk) return (TValue)_Inner;
