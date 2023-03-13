@@ -18,10 +18,29 @@ public class Option<T>
   public bool IsNone => _Inner == null;
 
   /// <summary>
+  /// 
+  /// </summary>
+  /// <param name="value"></param>
+  /// <returns></returns>
+  public static Option<T> Some(T value) {
+    Option<T> result = new Option<T>(value);
+    return result;
+  }
+
+  /// <summary>
+  /// 
+  /// </summary>
+  /// <returns></returns>
+  public static Option<T> None() {
+    Option<T> result = new Option<T>(null);
+    return result;
+  }
+
+  /// <summary>
   /// Creates a Option instance with a value of type <paramref name="T"/>
   /// </summary>
   /// <param name="val"> The value to be put into the Option instance </param>
-  public Option(object? val) {
+  private Option(object? val) {
     _Inner = val;
   }
 
@@ -83,7 +102,7 @@ public class Option<T>
   /// </summary>
   /// <param name="func"> The actions to be preformed on the <paramref name="_Inner"/> value </param>
   /// <returns> Returns the original instance for chaining </returns>
-  public Option<T> Some(Action<T> func) {
+  public Option<T> IfSome(Action<T> func) {
     if (_Inner == null) return this;
     func((T)_Inner);
     return this;
@@ -96,7 +115,7 @@ public class Option<T>
   /// <param name="func"> The actions to be preformed on the <paramref name="_Inner"/> value </param>
   /// <param name="args"> The other args to be used in the function call </param>
   /// <returns> Returns the original instance for chaining </returns>
-  public Option<T> Some(Action<T, object[]> func, params object[] args) {
+  public Option<T> IfSome(Action<T, object[]> func, params object[] args) {
     if (_Inner == null) return this;
     func((T)_Inner, args);
     return this;
@@ -107,7 +126,7 @@ public class Option<T>
   /// </summary>
   /// <param name="func"> The actions to be preformed on the inner value </param>
   /// <returns> Returns the original instance for chaining </returns>
-  public Option<T> None(Action func) {
+  public Option<T> IfNone(Action func) {
     if (_Inner != null) return this;
     func();
     return this;
@@ -119,7 +138,7 @@ public class Option<T>
   /// <param name="func"> The actions to be preformed on the inner value </param>
   /// <param name="args"> The other args to be used in the function call </param>
   /// <returns> Returns the original instance for chaining </returns>
-  public Option<T> None(Action<object[]> func, params object[] args) {
+  public Option<T> IfNone(Action<object[]> func, params object[] args) {
     if (_Inner != null) return this;
     func(args);
     return this;

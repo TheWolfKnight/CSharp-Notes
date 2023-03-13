@@ -34,20 +34,20 @@ public class Program {
   static void OptionTests() {
     int i = 10;
 
-    Option<int> o = new Option<int>(i);
-    Option<int> n = new Option<int>(null);
+    Option<int> o = Option<int>.Some(i);
+    Option<int> n = Option<int>.None();
 
-    Option<string> t = new Option<string>("Hello, World!");
-    Option<string> l = new Option<string>(null);
+    Option<string> t = Option<string>.Some("Hello, World!");
+    Option<string> l = Option<string>.None();
 
     System.Console.WriteLine(o.IsSome);
     System.Console.WriteLine(o.IsNone);
 
-    o.Some(item => System.Console.WriteLine(item))
-     .None(() => System.Console.WriteLine("None"));
+    o.IfSome(item => System.Console.WriteLine(item))
+     .IfNone(() => System.Console.WriteLine("None"));
 
-    n.Some(item => System.Console.WriteLine(item))
-     .None(() => System.Console.WriteLine("None"));
+    n.IfSome(item => System.Console.WriteLine(item))
+     .IfNone(() => System.Console.WriteLine("None"));
 
     System.Console.WriteLine(n.UnwrapOr(-1));
     System.Console.WriteLine(o.Unwrap());
